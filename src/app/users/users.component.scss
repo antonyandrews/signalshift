@@ -1,0 +1,106 @@
+.users-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  h1 {
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .users-stats {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .loading,
+  .error {
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .error {
+    color: #d32f2f;
+    background: #ffebee;
+    border-radius: 4px;
+  }
+
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+
+    thead {
+      background: #1976d2;
+      color: white;
+
+      th {
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background: #f5f5f5;
+        }
+
+        &:hover {
+          background: #e3f2fd;
+        }
+
+        td {
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid #e0e0e0;
+        }
+      }
+    }
+
+    .avatar-cell {
+      width: 60px;
+      text-align: center;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: capitalize;
+
+      &.status-active {
+        background: #4caf50;
+        color: white;
+      }
+
+      &.status-inactive {
+        background: #9e9e9e;
+        color: white;
+      }
+
+      &.status-pending {
+        background: #ff9800;
+        color: white;
+      }
+    }
+  }
+}

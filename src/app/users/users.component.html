@@ -1,0 +1,50 @@
+<div class="users-container">
+  <h1>User List</h1>
+  <h1>Day 1 - SignalShift</h1>
+  <input [value]="search()" (input)="search.set($any($event.target).value)" placeholder="Search users" />
+  <p>Searching for: {{ search() }}</p>
+  <p>Filtered: {{ filteredUsers().length }} users</p>
+
+  @if (usersResource.isLoading()) {
+  <div class="loading">Loading users...</div>
+  } @else if (usersResource.error()) {
+  <div class="error">Error loading users: {{ usersResource.error() }}</div>
+  } @else {
+  <div class="users-stats">
+    <p>Total Users: {{ usersResource.value()?.length }}</p>
+  </div>
+
+  <table class="users-table">
+    <thead>
+      <tr>
+        <th>Avatar</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Department</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of filteredUsers() || []; track user.id) {
+      <tr>
+        <td class="avatar-cell">
+          <img [src]="user.avatar" [alt]="user.name" class="user-avatar" />
+        </td>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.department }}</td>
+        <td>
+          <span [class]="'status-badge status-' + user.status">
+            {{ user.status }}
+          </span>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+</div>
