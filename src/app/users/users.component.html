@@ -6,7 +6,7 @@
   <p>Filtered: {{ filteredUsers().length }} users</p>
 
   @if (usersResource.isLoading()) {
-  <div class="loading">Loading users...</div>
+  <div>🔍 Searching server for "{{ search() }}"...</div>
   } @else if (usersResource.error()) {
   <div class="error">Error loading users: {{ usersResource.error() }}</div>
   } @else {
@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (user of filteredUsers() || []; track user.id) {
+      @for (user of usersResource.value() || []; track user.id) {
       <tr>
         <td class="avatar-cell">
           <img [src]="user.avatar" [alt]="user.name" class="user-avatar" />

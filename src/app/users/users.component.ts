@@ -1,4 +1,4 @@
-import { Component, linkedSignal, resource, signal } from '@angular/core';
+import { Component, linkedSignal, resource, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { users, User } from '../data/users';
 
@@ -11,22 +11,28 @@ import { users, User } from '../data/users';
 })
 export class UsersComponent {
   search = signal('');
-  // Using resource() to fetch user data
+
+  // FIXED: No 'request' property - just read signal directly inside loader
+  // Angular tracks it. Plus we force reload via effect below.
   usersResource = resource({
     loader: async () => {
-      // Simulate async operation (e.g., API call)
-      await new Promise(resolve => setTimeout(resolve, 100));
-      return users;
+      const term = this.search().toLowerCase(); // <-- signal read here
+      await new Promise(r => setTimeout(r, 400)); // fake network delay
+
+      if (!term) return users;
+      return users.filter((u: any) => u.name.toLowerCase().includes(term));
     }
   });
 
-  protected trackById(index: number, user: User): number {
-    return user.id;
+  // This is the trick for your Angular version - reload resource when search changes
+  constructor() {
+    effect(() => {
+      // We read search() here to track it
+      this.search();
+      // Then reload the resource
+      this.usersResource.reload();
+    });
   }
 
-  filteredUsers = linkedSignal(() => {
-    const users = this.usersResource.value() || [];
-    const term = this.search().toLowerCase();
-    return users.filter((u: any) => u.name.toLowerCase().includes(term));
-  });
+  filteredUsers = computed(() => this.usersResource.value() || []);
 }
